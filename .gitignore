@@ -1,1 +1,14 @@
+# Compiled files
+*.o
+*.out
+*.exe
 
+# Build folders
+build/
+
+# Editor files
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
