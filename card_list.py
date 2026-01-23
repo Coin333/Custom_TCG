@@ -143,3 +143,161 @@ common_cards = {
     # Note: Attack increases by +800 if "Asphyxiation" is applied (not modeled here)
         )
 }
+rare_cards = {
+    Card(
+	"Steph Curry",
+	600,               # Attack value
+	300,               # HP value
+	0.33,              # 33% damage reduction
+	[False, True, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["3 Point Blick", "ability", 0.42, 2.5]  # Ability: 42% chance to shoot critical (250% damage)
+		),
+    Card(
+	"IShowSpeed",
+	250,               # Attack value
+	500,               # HP value
+	0,                 # Damage reduction not mentioned
+	[False, True, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Bark", "ability", 1.0, 0]  # Ability: always activates, details: 25% chance to backflip heal 300 HP (not modeled here)
+		),
+    Card(
+	"Hungryhungryhanny",
+	250,               # Attack value
+	400,               # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Lebron Scream", "ability", 0.25, 10.0]  # Ability: flip 2 coins (1/4 chance), critical 1000% damage next turn
+		),
+    Card(
+	"Goonicide guy",
+	400,               # Attack value
+	800,               # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Goon-akaze", "ability", 1.0, 0]  # Ability: deals 1,000 damage to one card; slows all bench cards and 25% permanent miss chance (effects not modeled)
+		),
+    Card(
+	"NPC",
+	250,               # Attack value
+	750,               # HP value
+	0,                 # Damage reduction not mentioned
+	[True, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Mask Removal", "ability", 1.0, 0]  # Ability: doubles all stats permanently, incapacitates for 1 turn (effects not modeled)
+		),
+    Card(
+	"Elon Musk",
+	300,               # Attack value
+	750,               # HP value
+	0.25,              # 25% damage reduction when in Cybertruck (conditional)
+	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Cybertruck Defense", "ability", 1.0, 0]  # Ability: reduces incoming damage by 75% unless “Sledgehammer” in play (effect not modeled)
+		),
+}
+epic_cards = {
+    "Badland Chugs": Card(
+	"Badland Chugs",
+	500,               # Attack value
+	1600,              # HP value
+	0,                 # Damage reduction not mentioned (temporary 95% reduction from ability)
+	[False, False, False, True, False, True, True],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Chug Fest", "ability", 1.0, 0]  # Ability: heals to full HP and grants 95% damage reduction for 1 turn (effect not modeled)
+		),
+   "John Pork": Card(
+	"John Pork",
+	50,                # Attack value
+	1000,              # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, False, True, False, False, True],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["John Pork is calling", "ability", 1.0, 0]  # Ability: disables a bench card from being played for 3 turns (effect not modeled)
+		),
+    "Xi Jinping": Card(
+	"Xi Jinping",
+	400,               # Attack value
+	650,               # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Dictatorship", "ability", 1.0, 0]  # Ability: details not specified
+		),
+    "El Primo": Card(
+	"El Primo",
+	800,               # Attack value
+	800,               # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["El Primoooo", "ability", 1.0, 0]  # Ability: deals 200 burn damage per turn for 4 turns (effect not modeled)
+		),
+    "Lil Uzi Vert": Card(
+	"Lil Uzi Vert",
+	250,               # Attack value
+	600,               # HP value
+	0,                 # Damage reduction not mentioned
+	[True, True, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["Luv is Rage", "ability", 1.0, 0]  # Ability: buffs stats of all bench cards by 25% permanently (effect not modeled)
+		),
+    "Erica Kirk": Card(
+	"Erica Kirk",
+	350,               # Attack value
+	1400,              # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, False, False, True, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["We Are Charlie Kirk", "ability", 0.5, 0]  # Ability: 50% chance opponent’s next attack hits themselves
+		),
+    "Bruce Lee": Card(
+	"Bruce Lee",
+	1000,              # Attack value
+	800,               # HP value
+	0,                 # Damage reduction not mentioned
+	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["1 Inch Punch", "ability", 1.0, 1.5]  # Ability: 1.5x damage if opponent short, else 1.25x (1.25x not modeled here)
+		),
+    "Andrew Tate": Card(
+	"Andrew Tate",
+	0,                 # No direct damage; attack is a Bugatti color roll mechanic
+	1000,              # HP value
+	0.25,              # 25% damage reduction (Alpha Male)
+	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
+	0,                 # Dodge not mentioned
+	0,                 # Doublehit always 0
+	0,                 # Truedmg not mentioned
+	["What color’s your Bugatti?", "ability", 0.333, 0]  # 1/3 chance colors match → opponent card joins your team
+		)
+}
