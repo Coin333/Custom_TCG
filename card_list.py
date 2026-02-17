@@ -4,49 +4,15 @@ import pygame
 import os
 
 class Card:
-    def __init__(self, name, damage, hp, damage_reduction,traits,dodge,doublehit,truedmg,abilities):
+    def __init__(self, name, damage, hp, damage_reduction, dodge, doublehit, truedmg, abilities):
         self.name = name
         self.damage = damage
         self.hp = hp
         self.damage_reduction = damage_reduction
-        self.trait_list = traits
         self.dodge = dodge
         self.doublehit = doublehit
         self.truedmg = truedmg
         self.abilities = abilities
-        self.set_traits(self.trait_list)
-    def set_traits(self,trait_key):
-        #use format [short,afam,tall,male,female,chuzz,fat] (t/f)
-        self.short = False
-        self.tall = False
-        self.afam = False
-        self.male = False
-        self.female = False
-        self.chuzz = False
-        self.fat = False
-        if trait_key[0] == True:
-            self.short = True
-            self.tall = False
-        elif trait_key[2] == True:
-            self.tall = True
-        if trait_key[1] == True:
-            self.afam = True
-            self.dodge += .05
-        if trait_key[3] == True:
-            self.male = True
-            self.female = False
-        elif trait_key[4] == True:
-            self.female = True
-            self.male = False
-        else:
-            self.female = False
-            self.male = False
-        if trait_key[5] == True:
-            self.chuzz = True
-            self.doublehit += .10
-        if trait_key[6] == True:
-            self.fat = True
-            self.dodge -= .05
 
 common_cards = {
     "Charlie_Kirk": Card(
@@ -54,7 +20,6 @@ common_cards = {
     150,               # Attack value
     500,               # HP value
     0,                 # Damage reduction not mentioned
-    [False, False, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
@@ -70,7 +35,6 @@ common_cards = {
     125,                # Attack value
     600,                # HP value
     0.25,               # 25% damage reduction from Secret Service Buff
-    [False, False, True, True, False, False, True],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                  # Dodge not mentioned
     0,                  # Doublehit always 0
     0,                  # Truedmg not mentioned
@@ -82,7 +46,6 @@ common_cards = {
     0,                  # Attack is % of opponent’s HP, so raw attack set to 0
     500,                # HP value
     0,                  # Damage reduction not mentioned
-    [False, True, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                  # Dodge not mentioned
     0,                  # Doublehit always 0
     0.20,               # True damage = 20% of opponent’s HP
@@ -100,7 +63,6 @@ common_cards = {
     500,               # Attack value
     350,               # HP value
     0,                 # Damage reduction not mentioned
-    [False, True, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
@@ -116,7 +78,6 @@ common_cards = {
     300,               # Attack value
     900,               # HP value
     0,                 # Damage reduction (not passive, it’s a temporary buff from ability)
-    [False, True, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
@@ -134,7 +95,6 @@ common_cards = {
     500,               # Attack value
     500,               # HP value
     0,                 # Damage reduction not mentioned
-    [False, False, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
@@ -151,7 +111,6 @@ common_cards = {
     50,                # Attack value
     10,                # HP value
     0,                 # Damage reduction not mentioned
-    [False, False, False, False, False, False, False],  # Traits: none
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
@@ -167,7 +126,6 @@ common_cards = {
     200,               # Base attack value
     300,               # HP value
     0,                 # Damage reduction not mentioned
-    [False, True, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
@@ -186,7 +144,6 @@ rare_cards = {
 	600,               # Attack value
 	300,               # HP value
 	0.33,              # 33% damage reduction
-	[False, True, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -202,7 +159,6 @@ rare_cards = {
 	250,               # Attack value
 	500,               # HP value
 	0,                 # Damage reduction not mentioned
-	[False, True, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -219,7 +175,6 @@ rare_cards = {
 	250,               # Attack value
 	400,               # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -235,7 +190,6 @@ rare_cards = {
 	400,               # Attack value
 	800,               # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -251,7 +205,6 @@ rare_cards = {
 	250,               # Attack value
 	750,               # HP value
 	0,                 # Damage reduction not mentioned
-	[True, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -270,7 +223,6 @@ rare_cards = {
 	300,               # Attack value
 	750,               # HP value
 	0.25,              # 25% damage reduction when in Cybertruck (conditional)
-	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -290,7 +242,6 @@ epic_cards = {
 	500,               # Attack value
 	1600,              # HP value
 	0,                 # Damage reduction not mentioned (temporary 95% reduction from ability)
-	[False, False, False, True, False, True, True],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -309,7 +260,6 @@ epic_cards = {
 	50,                # Attack value
 	1000,              # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, False, True, False, False, True],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -325,7 +275,6 @@ epic_cards = {
 	400,               # Attack value
 	650,               # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -343,7 +292,6 @@ epic_cards = {
 	800,               # Attack value
 	800,               # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, True, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -360,7 +308,6 @@ epic_cards = {
 	250,               # Attack value
 	600,               # HP value
 	0,                 # Damage reduction not mentioned
-	[True, True, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -379,7 +326,6 @@ epic_cards = {
 	350,               # Attack value
 	1400,              # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, False, False, True, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -396,17 +342,14 @@ epic_cards = {
 	1000,              # Attack value
 	800,               # HP value
 	0,                 # Damage reduction not mentioned
-	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	{  # Conditional critical
-		"type": "conditional_critical",
+	{  # Critical hit
+		"type": "critical",
 		"name": "1 Inch Punch",
 		"chance": 1.0,
-		"multiplier": 1.5,
-		"condition": {"trait": "short", "value": True},
-		"fallback_multiplier": 1.25
+		"multiplier": 1.5
 	}
 		),
     "Andrew_Tate": Card(
@@ -414,7 +357,6 @@ epic_cards = {
 	0,                 # No direct damage; attack is a Bugatti color roll mechanic
 	1000,              # HP value
 	0.25,              # 25% damage reduction (Alpha Male)
-	[False, False, False, True, False, False, False],  # Traits: short, african american, tall, male, female, chuzz, fat
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
@@ -432,7 +374,6 @@ mythic_cards = {
 	400,               # Base attack, pierces damage reduction
 	800,               # HP value
 	0,                 # No damage reduction mentioned
-	[False, True, False, True, False, False, False],  # short, african american, tall, male, female, chuzz, fat
 	0,
 	0,
 	0,
@@ -448,7 +389,6 @@ mythic_cards = {
 	0,                 # Attack not specified
 	0,                 # HP not specified
 	0,
-	[False, True, False, True, False, False, False],
 	0,
 	0,
 	0,
@@ -464,7 +404,6 @@ mythic_cards = {
 	0,                 # Attack not specified
 	0,                 # HP not specified
 	0,
-	[False, False, True, True, False, False, False],
 	0,
 	0,
 	0,
@@ -481,7 +420,6 @@ mythic_cards = {
 	100,               # Attack heals 40 HP
 	400,               # HP value
 	0.8,               # 80% damage reduction
-	[True, True, False, True, False, False, False],
 	0,
 	0,
 	0,
@@ -498,7 +436,6 @@ mythic_cards = {
 	500,               # Base attack
 	400,               # HP value
 	0,
-	[True, False, False, True, False, False, False],
 	0,
 	0,
 	0,
@@ -514,7 +451,6 @@ mythic_cards = {
 	900,
 	450,
 	0,
-	[False, True, False, True, False, False, False],
 	0,
 	0,
 	0,
@@ -532,7 +468,6 @@ mythic_cards = {
 	0,                 # No flat damage
 	3000,
 	0,
-	[False, False, False, True, False, False, True],
 	0,
 	0,
 	0.9,               # 90% HP true damage
@@ -548,7 +483,6 @@ mythic_cards = {
 	350,
 	500,
 	0.5,               # 50% damage reduction
-	[False, False, False, True, False, False, False],
 	0.5,               # 50% less chance to get hit
 	0,
 	0,
@@ -564,17 +498,14 @@ mythic_cards = {
 	600,
 	1500,
 	0,
-	[False, False, False, True, False, False, False],
 	0,
 	0,
 	0,
-	{  # Conditional critical
-		"type": "conditional_critical",
+	{  # Critical hit
+		"type": "critical",
 		"name": "Rough Rider Charge",
 		"chance": 1.0,
-		"multiplier": 2.0,
-		"condition": {"trait": "tall", "value": True},
-		"fallback_multiplier": 2.0  # Still 2x even if not tall
+		"multiplier": 2.0
 	}
 		),
     "Gorlock_the_Destroyer": Card(
@@ -582,7 +513,6 @@ mythic_cards = {
 	200,
 	5000,
 	0,
-	[False, False, False, False, True, True, True],
 	0,
 	0,
 	0,
@@ -601,7 +531,6 @@ legendary_cards = {
 	500,
 	2500,
 	0,
-	[False, True, True, True, False, False, False],  # tall, african american, male
 	0,
 	0,
 	0,
@@ -617,7 +546,6 @@ legendary_cards = {
 	800,
 	1300,
 	0,
-	[False, False, False, True, False, False, False],
 	0,
 	0,
 	0,
@@ -633,7 +561,6 @@ legendary_cards = {
 	900,
 	1000,
 	0,
-	[False, True, False, True, False, False, False],
 	0,
 	0,
 	0.10,              # 10% HP true damage from drones
@@ -649,7 +576,6 @@ legendary_cards = {
 	650,               # Average of 600–700
 	2000,
 	0,
-	[False, False, True, True, False, False, False],
 	0,
 	0,
 	0,
@@ -667,7 +593,6 @@ legendary_cards = {
 	1500,
 	250,
 	0,
-	[False, False, False, True, False, False, False],
 	0,
 	0,
 	0.10,              # Ricin drains 10% HP per turn
@@ -685,7 +610,6 @@ legendary_cards = {
 	750,
 	2500,
 	0,
-	[False, False, False, True, False, False, True],
 	0,
 	0,
 	0,
@@ -701,7 +625,6 @@ legendary_cards = {
 	1000,
 	500,
 	0,
-	[False, True, False, True, False, False, False],
 	0.20,              # 20% dodge chance
 	0,
 	0,
@@ -721,7 +644,6 @@ ult_legendary_cards = {
 	0,                 # No flat damage
 	1,                 # HP value
 	0,
-	[False, False, False, False, False, False, False],  # No traits
 	0,
 	0,
 	1.0,               # 100% HP true damage
@@ -736,7 +658,6 @@ ult_legendary_cards = {
 	0,                 # Attack determined by coin flips
 	0,                 # HP lasts 2 turns then leaves (not numeric)
 	0,
-	[False, False, False, False, False, False, False],
 	0,
 	0,
 	0,
@@ -752,7 +673,6 @@ ult_legendary_cards = {
 	[67,6700],              # Midpoint of 67–6700
 	1500,
 	0,
-	[True, False, False, True, False, False, False],
 	0.50,              # 50% chance to jump over attacks
 	0,
 	0,
@@ -769,7 +689,6 @@ ult_legendary_cards = {
 	0,                 # Coin-flip based attack
 	1600,
 	0,
-	[False, False, False, True, False, False, False],
 	0,
 	0,
 	0.67,              # Heads: deals 67% opponent HP; tails heals 25%
@@ -787,7 +706,6 @@ ult_legendary_cards = {
 	67,                # Base attack
 	1750,
 	0,
-	[False, False, False, True, False, False, False],
 	0.75,              # 75% dodge when above 1000 HP
 	0,
 	0,

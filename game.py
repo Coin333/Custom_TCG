@@ -217,44 +217,20 @@ def activate_ability(attacker, defender, ability, game_state=None):
         print(f"  {ability_name} activated! {attacker.name} will auto-dodge the next {attacks} attack(s)!")
         
     elif ability_type == "conditional_critical":
-        # Critical with conditions
+        # Critical with conditions (traits removed, always uses multiplier)
         multiplier = ability.get("multiplier", 2.0)
-        condition = ability.get("condition", {})  # {"trait": "short", "value": True}
+        fallback = ability.get("fallback_multiplier", multiplier)
         
-        # Check condition
-        condition_met = True
-        if condition:
-            trait = condition.get("trait")
-            value = condition.get("value")
-            if trait == "short" and defender.short != value:
-                condition_met = False
-            elif trait == "tall" and defender.tall != value:
-                condition_met = False
-            elif trait == "male" and defender.male != value:
-                condition_met = False
-            elif trait == "female" and defender.female != value:
-                condition_met = False
-        
-        if condition_met:
-            base_damage = attacker.damage
-            if isinstance(base_damage, list):
-                base_damage = random.randint(base_damage[0], base_damage[1])
-            elif base_damage == 0:
-                base_damage = defender.hp * 0.1
-            damage = base_damage * multiplier
-            actual_dmg = card_list.DealDamage(attacker, defender, damage)
-            result["damage"] = actual_dmg
-            print(f"  {ability_name} activated! Conditional critical hit for {actual_dmg:.1f} damage!")
-        else:
-            # Fallback multiplier if condition not met
-            fallback = ability.get("fallback_multiplier", 1.25)
-            base_damage = attacker.damage
-            if isinstance(base_damage, list):
-                base_damage = random.randint(base_damage[0], base_damage[1])
-            damage = base_damage * fallback
-            actual_dmg = card_list.DealDamage(attacker, defender, damage)
-            result["damage"] = actual_dmg
-            print(f"  {ability_name} activated! (Condition not met) Dealt {actual_dmg:.1f} damage!")
+        # Use multiplier (traits no longer checked)
+        base_damage = attacker.damage
+        if isinstance(base_damage, list):
+            base_damage = random.randint(base_damage[0], base_damage[1])
+        elif base_damage == 0:
+            base_damage = defender.hp * 0.1
+        damage = base_damage * multiplier
+        actual_dmg = card_list.DealDamage(attacker, defender, damage)
+        result["damage"] = actual_dmg
+        print(f"  {ability_name} activated! Critical hit for {actual_dmg:.1f} damage!")
             
     elif ability_type == "damage_boost":
         # Flat damage boost
