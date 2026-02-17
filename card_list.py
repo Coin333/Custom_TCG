@@ -2,7 +2,6 @@ import random
 import json
 import pygame
 import os
-import game
 
 class Card:
     def __init__(self, name, damage, hp, damage_reduction,traits,dodge,doublehit,truedmg,abilities):
@@ -50,7 +49,7 @@ class Card:
             self.dodge -= .05
 
 common_cards = {
-    "Charlie Kirk": Card(
+    "Charlie_Kirk": Card(
     "Charlie Kirk",
     150,               # Attack value
     500,               # HP value
@@ -59,9 +58,14 @@ common_cards = {
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
-    ["Debate!", "ability", 0.25, 5.0]  # Ability: 25% chance to inflict critical damage (500% multiplier)
+    {  # New ability format: Critical hit
+        "type": "critical",
+        "name": "Debate!",
+        "chance": 0.25,  # 25% chance to activate
+        "multiplier": 5.0  # 5x damage (500% multiplier)
+    }
         ),
-    "Donald Trump": Card(
+    "Donald_Trump": Card(
     "Donald Trump",
     125,                # Attack value
     600,                # HP value
@@ -73,7 +77,7 @@ common_cards = {
     ["Firm Handshake", "ability", 1.0, 0]  # Ability: always activates (100% chance), no damage multiplier since it heals/drains
     # Note: Secret Service Buff also grants a 10% chance every turn to heal back to full health (not included here)
         ),
-    "Kanye West": Card(
+    "Kanye_West": Card(
     "Kanye West",
     0,                  # Attack is % of opponent’s HP, so raw attack set to 0
     500,                # HP value
@@ -82,11 +86,16 @@ common_cards = {
     0,                  # Dodge not mentioned
     0,                  # Doublehit always 0
     0.20,               # True damage = 20% of opponent’s HP
-    ["Album Drop", "ability", 0.10, 0]  # 10% chance to transform (no damage multiplier specified)
-    # Note: If Album Drop unsuccessful, boosts next attack damage to 33% of opponent’s HP
+    {  # Transform or boost damage
+        "type": "damage_boost",
+        "name": "Album Drop",
+        "chance": 0.10,
+        "boost": 0,  # Will be calculated as % of opponent HP
+        "turns": 1
+    }
     # Combo Ability activates only if Drake is in play (not implemented here)
         ),
-    "Kobe Bryant": Card(
+    "Kobe_Bryant": Card(
     "Kobe Bryant",
     500,               # Attack value
     350,               # HP value
@@ -95,7 +104,12 @@ common_cards = {
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
-    ["Kobe Fadeaway", "ability", 0.447, 1.5]  # Ability: 44.7% chance to deal 150% damage
+    {  # Critical hit
+        "type": "critical",
+        "name": "Kobe Fadeaway",
+        "chance": 0.447,
+        "multiplier": 1.5
+    }
         ),
     "Shaq": Card(
     "Shaq",
@@ -106,9 +120,16 @@ common_cards = {
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
-    ["Backboard Shatter", "ability", 1.0, 0]  # Ability: grants 50% damage reduction for 3 turns (effect not modeled here)
+    {  # Defense boost
+        "type": "defense",
+        "name": "Backboard Shatter",
+        "chance": 1.0,
+        "value": 0.50,
+        "target": "self",
+        "turns": 3
+    }
         ),
-    "Burger King Guy": Card(
+    "Burger_King_Guy": Card(
     "Burger King Guy",
     500,               # Attack value
     500,               # HP value
@@ -117,9 +138,15 @@ common_cards = {
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
-    ["Slur", "ability", 1.0, 0]  # Ability: always activates, deals ragebait damage, saps 5% enemy health for 5 turns (effect not fully modeled)
+    {  # Poison effect
+        "type": "poison",
+        "name": "Slur",
+        "chance": 1.0,
+        "turns": 5,
+        "amount": 25  # 5% of 500 HP = 25 per turn
+    }
         ),
-    "Coughing Baby": Card(
+    "Coughing_Baby": Card(
     "Coughing Baby",
     50,                # Attack value
     10,                # HP value
@@ -128,9 +155,14 @@ common_cards = {
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
-    ["Cough", "ability", 0.125, 0]  # Ability: flip 3 coins, 1/8 chance all same face (0.125), no damage multiplier
+    {  # Low chance critical (coin flip mechanic)
+        "type": "critical",
+        "name": "Cough",
+        "chance": 0.125,
+        "multiplier": 3.0  # Significant damage if it hits
+    }
         ),
-    "George Floyd": Card(
+    "George_Floyd": Card(
     "George Floyd",
     200,               # Base attack value
     300,               # HP value
@@ -139,12 +171,17 @@ common_cards = {
     0,                 # Dodge not mentioned
     0,                 # Doublehit always 0
     0,                 # Truedmg not mentioned
-    ["Floyd’s Revenge", "ability", 1.0, 0]  # Ability: applies “Asphyxiation” (enables +800 attack condition)
-    # Note: Attack increases by +800 if "Asphyxiation" is applied (not modeled here)
+    {  # Damage boost
+        "type": "damage_boost",
+        "name": "Floyd's Revenge",
+        "chance": 1.0,
+        "boost": 800,
+        "turns": -1  # Permanent
+    }
         )
 }
 rare_cards = {
-    "Steph Curry": Card(
+    "Steph_Curry": Card(
 	"Steph Curry",
 	600,               # Attack value
 	300,               # HP value
@@ -153,7 +190,12 @@ rare_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["3 Point Blick", "ability", 0.42, 2.5]  # Ability: 42% chance to shoot critical (250% damage)
+	{  # Critical hit
+		"type": "critical",
+		"name": "3 Point Blick",
+		"chance": 0.42,
+		"multiplier": 2.5
+	}
 		),
     "IShowSpeed": Card(
 	"IShowSpeed",
@@ -164,7 +206,13 @@ rare_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Bark", "ability", 1.0, 0]  # Ability: always activates, details: 25% chance to backflip heal 300 HP (not modeled here)
+	{  # Heal with chance
+		"type": "heal",
+		"name": "Bark",
+		"chance": 0.25,  # 25% chance to heal
+		"amount": 300,
+		"target": "self"
+	}
 		),
     "Hungryhungryhanny": Card(
 	"Hungryhungryhanny",
@@ -175,10 +223,15 @@ rare_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Lebron Scream", "ability", 0.25, 10.0]  # Ability: flip 2 coins (1/4 chance), critical 1000% damage next turn
+	{  # Critical hit
+		"type": "critical",
+		"name": "Lebron Scream",
+		"chance": 0.25,
+		"multiplier": 10.0
+	}
 		),
-    "Goonicide guy": Card(
-	"Goonicide guy",
+    "Goonicide_Guy": Card(
+	"Goonicide Guy",
 	400,               # Attack value
 	800,               # HP value
 	0,                 # Damage reduction not mentioned
@@ -186,7 +239,12 @@ rare_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Goon-akaze", "ability", 1.0, 0]  # Ability: deals 1,000 damage to one card; slows all bench cards and 25% permanent miss chance (effects not modeled)
+	{  # Flat damage + miss chance
+		"type": "flat_damage",
+		"name": "Goon-akaze",
+		"chance": 1.0,
+		"damage": 1000
+	}
 		),
     "NPC": Card(
 	"NPC",
@@ -197,9 +255,17 @@ rare_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Mask Removal", "ability", 1.0, 0]  # Ability: doubles all stats permanently, incapacitates for 1 turn (effects not modeled)
+	{  # Stat buff + turn skip self
+		"type": "stat_buff",
+		"name": "Mask Removal",
+		"chance": 1.0,
+		"stat": "damage",
+		"value": 1.0,  # Double damage
+		"target": "self",
+		"turns": -1
+	}
 		),
-    "Elon Musk": Card(
+    "Elon_Musk": Card(
 	"Elon Musk",
 	300,               # Attack value
 	750,               # HP value
@@ -208,11 +274,18 @@ rare_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Cybertruck Defense", "ability", 1.0, 0]  # Ability: reduces incoming damage by 75% unless “Sledgehammer” in play (effect not modeled)
+	{  # Defense boost
+		"type": "defense",
+		"name": "Cybertruck Defense",
+		"chance": 1.0,
+		"value": 0.75,
+		"target": "self",
+		"turns": -1
+	}
 		),
 }
 epic_cards = {
-    "Badland Chugs": Card(
+    "Badland_Chugs": Card(
 	"Badland Chugs",
 	500,               # Attack value
 	1600,              # HP value
@@ -221,9 +294,17 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Chug Fest", "ability", 1.0, 0]  # Ability: heals to full HP and grants 95% damage reduction for 1 turn (effect not modeled)
+	{  # Full heal + defense
+		"type": "full_heal",
+		"name": "Chug Fest",
+		"chance": 1.0,
+		"max_hp": 1600,
+		"target": "self",
+		"defense_boost": 0.95,
+		"defense_turns": 1
+	}
 		),
-   "John Pork": Card(
+   "John_Pork": Card(
 	"John Pork",
 	50,                # Attack value
 	1000,              # HP value
@@ -232,9 +313,14 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["John Pork is calling", "ability", 1.0, 0]  # Ability: disables a bench card from being played for 3 turns (effect not modeled)
+	{  # Turn skip (simplified as opponent skip)
+		"type": "turn_skip",
+		"name": "John Pork is calling",
+		"chance": 1.0,
+		"turns": 1
+	}
 		),
-    "Xi Jinping": Card(
+    "Xi_Jinping": Card(
 	"Xi Jinping",
 	400,               # Attack value
 	650,               # HP value
@@ -243,9 +329,16 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Dictatorship", "ability", 1.0, 0]  # Ability: details not specified
+	{  # Stat debuff (simplified)
+		"type": "stat_debuff",
+		"name": "Dictatorship",
+		"chance": 1.0,
+		"stat": "damage",
+		"value": 0.20,
+		"turns": 2
+	}
 		),
-    "El Primo": Card(
+    "El_Primo": Card(
 	"El Primo",
 	800,               # Attack value
 	800,               # HP value
@@ -254,9 +347,15 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["El Primoooo", "ability", 1.0, 0]  # Ability: deals 200 burn damage per turn for 4 turns (effect not modeled)
+	{  # Poison
+		"type": "poison",
+		"name": "El Primoooo",
+		"chance": 1.0,
+		"turns": 4,
+		"amount": 200
+	}
 		),
-    "Lil Uzi Vert": Card(
+    "Lil_Uzi_Vert": Card(
 	"Lil Uzi Vert",
 	250,               # Attack value
 	600,               # HP value
@@ -265,9 +364,17 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["Luv is Rage", "ability", 1.0, 0]  # Ability: buffs stats of all bench cards by 25% permanently (effect not modeled)
+	{  # Stat buff (self, since bench not implemented)
+		"type": "stat_buff",
+		"name": "Luv is Rage",
+		"chance": 1.0,
+		"stat": "damage",
+		"value": 0.25,
+		"target": "self",
+		"turns": -1
+	}
 		),
-    "Erica Kirk": Card(
+    "Erica_Kirk": Card(
 	"Erica Kirk",
 	350,               # Attack value
 	1400,              # HP value
@@ -276,9 +383,15 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["We Are Charlie Kirk", "ability", 0.5, 0]  # Ability: 50% chance opponent’s next attack hits themselves
+	{  # Self hit
+		"type": "self_hit",
+		"name": "We Are Charlie Kirk",
+		"chance": 0.5,
+		"value": 1.0,  # 100% chance to hit self when active
+		"turns": 1
+	}
 		),
-    "Bruce Lee": Card(
+    "Bruce_Lee": Card(
 	"Bruce Lee",
 	1000,              # Attack value
 	800,               # HP value
@@ -287,9 +400,16 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["1 Inch Punch", "ability", 1.0, 1.5]  # Ability: 1.5x damage if opponent short, else 1.25x (1.25x not modeled here)
+	{  # Conditional critical
+		"type": "conditional_critical",
+		"name": "1 Inch Punch",
+		"chance": 1.0,
+		"multiplier": 1.5,
+		"condition": {"trait": "short", "value": True},
+		"fallback_multiplier": 1.25
+	}
 		),
-    "Andrew Tate": Card(
+    "Andrew_Tate": Card(
 	"Andrew Tate",
 	0,                 # No direct damage; attack is a Bugatti color roll mechanic
 	1000,              # HP value
@@ -298,7 +418,12 @@ epic_cards = {
 	0,                 # Dodge not mentioned
 	0,                 # Doublehit always 0
 	0,                 # Truedmg not mentioned
-	["What color’s your Bugatti?", "ability", 0.333, 0]  # 1/3 chance colors match → opponent card joins your team
+	{  # Convert
+		"type": "convert",
+		"name": "What color's your Bugatti?",
+		"chance": 0.333,
+		"value": 1.0  # If activates, always converts
+	}
 		)
 }
 mythic_cards = {
@@ -311,9 +436,14 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Bipolar Disorder", "ability", 0.05, 2.0]  # 5% revert to Kanye; coin flip double damage (2x)
+	{  # Critical hit
+		"type": "critical",
+		"name": "Bipolar Disorder",
+		"chance": 0.05,
+		"multiplier": 2.0
+	}
 		),
-    "OJ Simpson": Card(
+    "OJ_Simpson": Card(
 	"OJ Simpson",
 	0,                 # Attack not specified
 	0,                 # HP not specified
@@ -322,9 +452,14 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Glove don’t fit", "ability", 1.0, 0]  # Nullifies next attack
+	{  # Block
+		"type": "block",
+		"name": "Glove don't fit",
+		"chance": 1.0,
+		"attacks": 1
+	}
 		),
-    "Ezra Roberts": Card(
+    "Ezra_Roberts": Card(
 	"Ezra Roberts",
 	0,                 # Attack not specified
 	0,                 # HP not specified
@@ -333,7 +468,13 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Recycle", "ability", 1.0, 0]  # Effect not specified
+	{  # Heal (simplified)
+		"type": "heal",
+		"name": "Recycle",
+		"chance": 1.0,
+		"amount": 200,
+		"target": "self"
+	}
 		),
     "MLK": Card(
 	"MLK",
@@ -344,9 +485,15 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Freedom Speech", "ability", 1.0, 0]  # Heals 200 HP if another African American card is in play
+	{  # Heal
+		"type": "heal",
+		"name": "Freedom Speech",
+		"chance": 1.0,
+		"amount": 200,
+		"target": "self"
+	}
 		),
-    "Pablo Escobar": Card(
+    "Pablo_Escobar": Card(
 	"Pablo Escobar",
 	500,               # Base attack
 	400,               # HP value
@@ -355,7 +502,12 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Cartel Smuggle", "ability", 0.5, 3.0]  # Coin flip: 3x damage if heads
+	{  # Critical hit
+		"type": "critical",
+		"name": "Cartel Smuggle",
+		"chance": 0.5,
+		"multiplier": 3.0
+	}
 		),
     "Diddy": Card(
 	"Diddy",
@@ -366,9 +518,16 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Diddle", "ability", 1.0, 0]  # Ability details not specified
+	{  # Stat debuff (simplified)
+		"type": "stat_debuff",
+		"name": "Diddle",
+		"chance": 1.0,
+		"stat": "damage",
+		"value": 0.15,
+		"turns": 2
+	}
 		),
-    "Kim Jong-Un": Card(
+    "Kim_Jong-Un": Card(
 	"Kim Jong-Un",
 	0,                 # No flat damage
 	3000,
@@ -377,9 +536,14 @@ mythic_cards = {
 	0,
 	0,
 	0.9,               # 90% HP true damage
-	["Missile Launch", "ability", 0.05, 0]  # 5% chance to hit, otherwise false alarm
+	{  # Percentage damage (very low chance)
+		"type": "percentage_damage",
+		"name": "Missile Launch",
+		"chance": 0.05,
+		"percentage": 0.50  # 50% of HP if hits
+	}
 		),
-    "Saddam Hussein": Card(
+    "Saddam_Hussein": Card(
 	"Saddam Hussein",
 	350,
 	500,
@@ -388,9 +552,14 @@ mythic_cards = {
 	0.5,               # 50% less chance to get hit
 	0,
 	0,
-	["Hiding Spot", "ability", 1.0, 0]
+	{  # Dodge buff
+		"type": "dodge_buff",
+		"name": "Hiding Spot",
+		"chance": 1.0,
+		"attacks": 2
+	}
 		),
-    "Theodore Roosevelt": Card(
+    "Theodore_Roosevelt": Card(
 	"Theodore Roosevelt",
 	600,
 	1500,
@@ -399,9 +568,16 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Rough Rider Charge", "ability", 1.0, 2.0]  # Double damage next turn; also 2x vs tall opponents
+	{  # Conditional critical
+		"type": "conditional_critical",
+		"name": "Rough Rider Charge",
+		"chance": 1.0,
+		"multiplier": 2.0,
+		"condition": {"trait": "tall", "value": True},
+		"fallback_multiplier": 2.0  # Still 2x even if not tall
+	}
 		),
-    "Gorlock the Destroyer": Card(
+    "Gorlock_the_Destroyer": Card(
 	"Gorlock the Destroyer",
 	200,
 	5000,
@@ -410,11 +586,17 @@ mythic_cards = {
 	0,
 	0,
 	0,
-	["Dominion Expansion", "ability", 1.0, 0]  # Absorbs all damage even from bench, heals 50%
+	{  # Full heal + defense
+		"type": "full_heal",
+		"name": "Dominion Expansion",
+		"chance": 1.0,
+		"max_hp": 5000,
+		"target": "self"
+	}
 		)
 }
 legendary_cards = {
-    "Lebron James": Card(
+    "Lebron_James": Card(
 	"Lebron James",
 	500,
 	2500,
@@ -423,9 +605,14 @@ legendary_cards = {
 	0,
 	0,
 	0,
-	["Chase Down Block", "ability", 1.0, 0]  # Ability details not specified
+	{  # Block
+		"type": "block",
+		"name": "Chase Down Block",
+		"chance": 1.0,
+		"attacks": 1
+	}
 		),
-    "Jeffrey Epstein": Card(
+    "Jeffrey_Epstein": Card(
 	"Jeffrey Epstein",
 	800,
 	1300,
@@ -434,9 +621,14 @@ legendary_cards = {
 	0,
 	0,
 	0,
-	["Kidnap", "ability", 0.5, 0]  # 50% chance to skip opponent’s next turn
+	{  # Turn skip
+		"type": "turn_skip",
+		"name": "Kidnap",
+		"chance": 0.5,
+		"turns": 1
+	}
 		),
-    "Barack Obama": Card(
+    "Barack_Obama": Card(
 	"Barack Obama",
 	900,
 	1000,
@@ -445,9 +637,14 @@ legendary_cards = {
 	0,
 	0,
 	0.10,              # 10% HP true damage from drones
-	["Drone Strike", "ability", 0.10, 0]  # 10% chance to summon drones hitting all opponent cards
+	{  # Percentage damage
+		"type": "percentage_damage",
+		"name": "Drone Strike",
+		"chance": 0.10,
+		"percentage": 0.20  # 20% of HP
+	}
 		),
-    "Mr. Michaelsen": Card(
+    "Mr._Michaelsen": Card(
 	"Mr. Michaelsen",
 	650,               # Average of 600–700
 	2000,
@@ -456,9 +653,16 @@ legendary_cards = {
 	0,
 	0,
 	0,
-	["AP Euro Flashcards", "ability", 1.0, 0]  # If opponent answers wrong, gains 80% DR for 3 turns
+	{  # Defense boost
+		"type": "defense",
+		"name": "AP Euro Flashcards",
+		"chance": 1.0,
+		"value": 0.80,
+		"target": "self",
+		"turns": 3
+	}
 		),
-    "Walter White": Card(
+    "Walter_White": Card(
 	"Walter White",
 	1500,
 	250,
@@ -467,7 +671,14 @@ legendary_cards = {
 	0,
 	0,
 	0.10,              # Ricin drains 10% HP per turn
-	["Ricin", "ability", 1.0, 0]  # Chosen card loses 10% HP for 4 turns
+	{  # Poison (% of HP)
+		"type": "poison",
+		"name": "Ricin",
+		"chance": 1.0,
+		"turns": 4,
+		"amount": 0,
+		"percentage": 0.10  # 10% of HP per turn
+	}
 		),
     "CaseOh": Card(
 	"CaseOh",
@@ -478,7 +689,12 @@ legendary_cards = {
 	0,
 	0,
 	0,
-	["Sit on u", "ability", 1.0, 2.0]  # Opponent cannot attack for 2 turns; 2x damage if opponent not tall
+	{  # Turn skip + conditional critical
+		"type": "turn_skip",
+		"name": "Sit on u",
+		"chance": 1.0,
+		"turns": 2
+	}
 		),
     "Monkey": Card(
 	"Monkey",
@@ -489,11 +705,18 @@ legendary_cards = {
 	0.20,              # 20% dodge chance
 	0,
 	0,
-	["Banana Slimer", "ability", 1.0, 0]  # If opponent male, inflicts anguish (-90% attack for 2 turns)
+	{  # Stat debuff (conditional)
+		"type": "stat_debuff",
+		"name": "Banana Slimer",
+		"chance": 1.0,
+		"stat": "damage",
+		"value": 0.90,
+		"turns": 2
+	}
 		)
 }
 ult_legendary_cards = {
-    "Hydrogen Bomb": Card(
+    "Hydrogen_Bomb": Card(
 	"Hydrogen Bomb",
 	0,                 # No flat damage
 	1,                 # HP value
@@ -502,7 +725,11 @@ ult_legendary_cards = {
 	0,
 	0,
 	1.0,               # 100% HP true damage
-	["Nuclear Strike", "ability", 1.0, 0]  # On attack both cards die; always goes first
+	{  # Mutual destruction
+		"type": "mutual_destruction",
+		"name": "Nuclear Strike",
+		"chance": 1.0
+	}
 		),
     "Beaver": Card(
 	"Beaver",
@@ -513,9 +740,14 @@ ult_legendary_cards = {
 	0,
 	0,
 	0,
-	["Take that wood", "ability", 1.0, 1.0]  # Flip 5 coins, 1000 damage per heads; feeds 33% gauge to opponent
+	{  # Flat damage (coin flip mechanic)
+		"type": "flat_damage",
+		"name": "Take that wood",
+		"chance": 1.0,
+		"damage": 1000  # Simplified - would be per coin flip
+	}
 		),
-    "Noah Tsui": Card(
+    "Noah_Tsui": Card(
 	"Noah Tsui",
 	[67,6700],              # Midpoint of 67–6700
 	1500,
@@ -524,10 +756,15 @@ ult_legendary_cards = {
 	0.50,              # 50% chance to jump over attacks
 	0,
 	0,
-	["Busty Calves", "ability", 1.0, 0]  # Auto-dodges next 2 attacks
+	{  # Dodge buff
+		"type": "dodge_buff",
+		"name": "Busty Calves",
+		"chance": 1.0,
+		"attacks": 2
+	}
 		),
 # Passive: Asian Blindness — 25% chance to miss attacks,
-    "Colin Sweeney": Card(
+    "Colin_Sweeney": Card(
 	"Colin Sweeney",
 	0,                 # Coin-flip based attack
 	1600,
@@ -536,10 +773,16 @@ ult_legendary_cards = {
 	0,
 	0,
 	0.67,              # Heads: deals 67% opponent HP; tails heals 25%
-	["Caffeine Gum", "ability", 1.0, 0]  # Next turn doubles number of coin flips
+	{  # Stat buff (simplified as damage boost)
+		"type": "damage_boost",
+		"name": "Caffeine Gum",
+		"chance": 1.0,
+		"boost": 100,
+		"turns": 1
+	}
 		),
 # Passive: Procrastination — 25% chance to skip next turn,
-    "Aldo Ortiz": Card(
+    "Aldo_Ortiz": Card(
 	"Aldo Ortiz",
 	67,                # Base attack
 	1750,
@@ -548,7 +791,74 @@ ult_legendary_cards = {
 	0.75,              # 75% dodge when above 1000 HP
 	0,
 	0,
-	["", "ability", 1.0, 100.0]  # Critical 10000% (100x) when above 1000 HP
+	{  # Conditional critical (when above 1000 HP)
+		"type": "critical",
+		"name": "Massive Critical",
+		"chance": 1.0,
+		"multiplier": 100.0
+	}
 		)
 # Passive: Deportation — 25% chance to be detained for 1 turn; dodge reduced to 25% and crit disabled
 }
+
+def DealDamage(attacker, defender, amount=None):
+    """
+    Calculate and deal damage from attacker to defender.
+    Handles dodge, damage reduction, true damage, and abilities.
+    Returns actual damage dealt.
+    """
+    if amount is None:
+        amount = attacker.damage
+    
+    # Handle special damage types (list-based, etc.)
+    if isinstance(amount, list):
+        # For cards like Noah_Tsui with range [min, max]
+        amount = random.randint(amount[0], amount[1])
+    elif amount == 0 and attacker.truedmg == 0:
+        # Some cards have 0 base damage but deal %HP (handled by truedmg)
+        # If both are 0, deal minimal damage
+        amount = 1
+    
+    # Check for dodge
+    if random.random() < defender.dodge:
+        return 0  # Dodged!
+    
+    # Apply true damage (bypasses damage reduction)
+    true_dmg = 0
+    if attacker.truedmg > 0:
+        true_dmg = defender.hp * attacker.truedmg
+    
+    # Apply regular damage with reduction
+    regular_dmg = amount
+    if regular_dmg > 0 and defender.damage_reduction > 0:
+        regular_dmg = amount * (1 - defender.damage_reduction)
+    
+    # Check for double hit
+    total_dmg = regular_dmg + true_dmg
+    if attacker.doublehit > 0 and random.random() < attacker.doublehit:
+        total_dmg *= 2
+    
+    # Apply damage
+    actual_dmg = min(total_dmg, defender.hp)
+    defender.hp -= actual_dmg
+    
+    return actual_dmg
+
+def Statmod(card, stat_type, value, duration=0):
+    """
+    Modify card stats temporarily or permanently.
+    stat_type: 'damage', 'hp', 'dodge', 'damage_reduction', 'doublehit'
+    duration: 0 = permanent, >0 = number of turns
+    """
+    if stat_type == 'damage':
+        card.damage += value
+    elif stat_type == 'hp':
+        card.hp += value
+    elif stat_type == 'dodge':
+        card.dodge = max(0, min(1, card.dodge + value))
+    elif stat_type == 'damage_reduction':
+        card.damage_reduction = max(0, min(1, card.damage_reduction + value))
+    elif stat_type == 'doublehit':
+        card.doublehit = max(0, min(1, card.doublehit + value))
+    
+    return duration  # Return duration for tracking
