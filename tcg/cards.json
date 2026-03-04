@@ -1,0 +1,285 @@
+{
+  "cards": [
+    {
+      "name": "Jack Orense",
+      "rarity": "Basic",
+      "max_hp": 300,
+      "attack": {"base_damage": 250, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Hockey Stick", "description": "Next attack does +250 damage", "effect_id": "hockey_stick"}
+    },
+    {
+      "name": "Charlie Kirk",
+      "rarity": "Common",
+      "max_hp": 500,
+      "attack": {"base_damage": 150, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Debate!", "description": "Next attack has 25% chance to inflict CRITICAL (500%) damage", "effect_id": "debate"}
+    },
+    {
+      "name": "Donald Trump",
+      "rarity": "Common",
+      "max_hp": 600,
+      "attack": {"base_damage": 125, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Firm Handshake", "description": "Heal 10% HP and drain 10% from opponent", "effect_id": "firm_handshake"},
+      "passive": {"name": "Secret Service", "description": "25% DR, 10% heal to full chance", "effect_id": "secret_service", "is_passive": true}
+    },
+    {
+      "name": "Kanye West",
+      "rarity": "Common",
+      "max_hp": 500,
+      "attack": {"base_damage": 0, "percent_damage": 20, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Album Drop", "description": "10% chance to transform into Ye, else boost next attack", "effect_id": "album_drop"}
+    },
+    {
+      "name": "Kobe Bryant",
+      "rarity": "Common",
+      "max_hp": 350,
+      "attack": {"base_damage": 500, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Kobe Fadeaway", "description": "44.7% chance to SWISH for 150% damage", "effect_id": "kobe_fadeaway"}
+    },
+    {
+      "name": "Shaq",
+      "rarity": "Common",
+      "max_hp": 900,
+      "attack": {"base_damage": 300, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Backboard Shatter", "description": "50% damage reduction for 3 turns", "effect_id": "backboard_shatter"}
+    },
+    {
+      "name": "Burger King Guy",
+      "rarity": "Common",
+      "max_hp": 500,
+      "attack": {"base_damage": 500, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Aggressive Language", "description": "Ragebait: 5% HP damage for 5 turns", "effect_id": "aggressive_language"}
+    },
+    {
+      "name": "Coughing Baby",
+      "rarity": "Common",
+      "max_hp": 10,
+      "attack": {"base_damage": 50, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Cough", "description": "Flip 3 coins. All same = Hydrogen Bomb", "effect_id": "cough"}
+    },
+    {
+      "name": "Steph Curry",
+      "rarity": "Rare",
+      "max_hp": 300,
+      "attack": {"base_damage": 600, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "3 Point Blick", "description": "42% chance for CRITICAL (250%) shot", "effect_id": "three_point_blick"},
+      "passive": {"name": "Steph Defense", "description": "33% damage reduction", "effect_id": "steph_defense", "is_passive": true}
+    },
+    {
+      "name": "IShowSpeed",
+      "rarity": "Rare",
+      "max_hp": 500,
+      "attack": {"base_damage": 250, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Bark", "description": "33% chance for opponent to miss next attack", "effect_id": "bark"},
+      "passive": {"name": "Backflip", "description": "25% chance to heal 300 HP (overflow)", "effect_id": "backflip", "is_passive": true}
+    },
+    {
+      "name": "Hungryhungryhanny",
+      "rarity": "Rare",
+      "max_hp": 400,
+      "attack": {"base_damage": 250, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Lebron Scream", "description": "Flip 2 coins. Both heads = 1000% CRIT next turn", "effect_id": "lebron_scream"}
+    },
+    {
+      "name": "Goonicide Guy",
+      "rarity": "Rare",
+      "max_hp": 800,
+      "attack": {"base_damage": 400, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Goon-akaze", "description": "800 damage. Bench gets 10% permanent miss", "effect_id": "goon_akaze"}
+    },
+    {
+      "name": "NPC",
+      "rarity": "Rare",
+      "max_hp": 750,
+      "attack": {"base_damage": 250, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Mask Removal", "description": "Double all stats. Incapacitate 1 turn", "effect_id": "mask_removal"}
+    },
+    {
+      "name": "Elon Musk",
+      "rarity": "Rare",
+      "max_hp": 750,
+      "attack": {"base_damage": 300, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Cybertruck", "description": "500 HP shield, 2x attack while active", "effect_id": "cybertruck"}
+    },
+    {
+      "name": "John Pork",
+      "rarity": "Epic",
+      "max_hp": 1000,
+      "attack": {"base_damage": 50, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "John Pork is Calling", "description": "33% chance to insta-kill random bench card", "effect_id": "john_pork_calling"}
+    },
+    {
+      "name": "Lil Uzi Vert",
+      "rarity": "Epic",
+      "max_hp": 600,
+      "attack": {"base_damage": 250, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Luv is Rage", "description": "Buff all bench cards by 25%", "effect_id": "luv_is_rage"}
+    },
+    {
+      "name": "Erica Kirk",
+      "rarity": "Epic",
+      "max_hp": 1400,
+      "attack": {"base_damage": 350, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "We Are Charlie Kirk", "description": "50% chance opponent hits themselves", "effect_id": "we_are_charlie_kirk"}
+    },
+    {
+      "name": "Bruce Lee",
+      "rarity": "Epic",
+      "max_hp": 800,
+      "attack": {"base_damage": 1000, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "1 Inch Punch", "description": "Deal 1.5x damage", "effect_id": "one_inch_punch"}
+    },
+    {
+      "name": "Andrew Tate",
+      "rarity": "Epic",
+      "max_hp": 1000,
+      "attack": {"base_damage": 200, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "What Color's Your Bugatti?", "description": "Roll colors. Match = brainwash (-90% ATK)", "effect_id": "what_color_bugatti"},
+      "passive": {"name": "Alpha", "description": "25% damage reduction", "effect_id": "alpha", "is_passive": true}
+    },
+    {
+      "name": "Ye",
+      "rarity": "Mythical",
+      "max_hp": 800,
+      "attack": {"base_damage": 400, "percent_damage": 0, "crit_chance": 50, "crit_multiplier": 200},
+      "ability": {"name": "Bipolar Disorder", "description": "5% chance to revert to Kanye West", "effect_id": "bipolar_disorder"}
+    },
+    {
+      "name": "MLK",
+      "rarity": "Mythical",
+      "max_hp": 400,
+      "attack": {"base_damage": 100, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Freedom Speech", "description": "Heal 200 HP", "effect_id": "freedom_speech"},
+      "passive": {"name": "MLK Peace", "description": "80% damage reduction", "effect_id": "mlk_peace", "is_passive": true}
+    },
+    {
+      "name": "Diddy",
+      "rarity": "Mythical",
+      "max_hp": 450,
+      "attack": {"base_damage": 900, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Diddle", "description": "50% chance to kidnap (skip turn)", "effect_id": "diddle"}
+    },
+    {
+      "name": "Kim Jong-Un",
+      "rarity": "Mythical",
+      "max_hp": 3000,
+      "attack": {"base_damage": 25, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Missile Launch", "description": "95% false alarm. 5% = 90% HP damage", "effect_id": "missile_launch"}
+    },
+    {
+      "name": "Saddam Hussein",
+      "rarity": "Mythical",
+      "max_hp": 500,
+      "attack": {"base_damage": 350, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Hiding Spot", "description": "50% dodge chance", "effect_id": "hiding_spot"},
+      "passive": {"name": "Saddam Shield", "description": "50% damage reduction", "effect_id": "saddam_shield", "is_passive": true}
+    },
+    {
+      "name": "Theodore Roosevelt",
+      "rarity": "Mythical",
+      "max_hp": 1500,
+      "attack": {"base_damage": 600, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Rough Rider Charge", "description": "Double damage next turn", "effect_id": "rough_rider_charge"}
+    },
+    {
+      "name": "Gorlock the Destroyer",
+      "rarity": "Mythical",
+      "max_hp": 3000,
+      "attack": {"base_damage": 200, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Dominion Expansion", "description": "Heal 25%, tank for bench next turn", "effect_id": "dominion_expansion"}
+    },
+    {
+      "name": "Lebron James",
+      "rarity": "Legendary",
+      "max_hp": 2500,
+      "attack": {"base_damage": 500, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Chase Down Block", "description": "75% dodge this turn", "effect_id": "chase_down_block"}
+    },
+    {
+      "name": "Jeffrey Epstein",
+      "rarity": "Legendary",
+      "max_hp": 1300,
+      "attack": {"base_damage": 800, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Kidnap", "description": "50% chance to skip opponent's turn", "effect_id": "kidnap"}
+    },
+    {
+      "name": "Barack Obama",
+      "rarity": "Legendary",
+      "max_hp": 1000,
+      "attack": {"base_damage": 900, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Drone Strike", "description": "10% chance: 10% HP to all opponents", "effect_id": "drone_strike"}
+    },
+    {
+      "name": "Mr. Michaelsen",
+      "rarity": "Legendary",
+      "max_hp": 2000,
+      "attack": {"base_damage": 650, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "AP Euro Flashcards", "description": "70% wrong = 80% DR for 3 turns", "effect_id": "ap_euro_flashcards"}
+    },
+    {
+      "name": "Walter White",
+      "rarity": "Legendary",
+      "max_hp": 250,
+      "attack": {"base_damage": 1500, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Ricin", "description": "10% HP per turn for 4 turns", "effect_id": "ricin"},
+      "death_ability": {"name": "Automatic Turret", "description": "On death: 25% to active, 15% to bench", "effect_id": "auto_turret"}
+    },
+    {
+      "name": "CaseOh",
+      "rarity": "Legendary",
+      "max_hp": 2500,
+      "attack": {"base_damage": 750, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Sit On U", "description": "Opponent can't attack for 2 turns", "effect_id": "sit_on_u"}
+    },
+    {
+      "name": "Monkey",
+      "rarity": "Legendary",
+      "max_hp": 500,
+      "attack": {"base_damage": 1000, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Banana Slimer", "description": "-90% ATK for 2 turns", "effect_id": "banana_slimer"},
+      "passive": {"name": "Monkey Agility", "description": "20% dodge chance", "effect_id": "monkey_agility", "is_passive": true}
+    },
+    {
+      "name": "Hydrogen Bomb",
+      "rarity": "Ultra Legendary",
+      "max_hp": 1,
+      "attack": {"base_damage": 99999, "percent_damage": 0, "crit_chance": 0, "crit_multiplier": 100},
+      "ability": {"name": "Nuclear Strike", "description": "Both cards die", "effect_id": "nuclear_strike"},
+      "transform_only": true
+    },
+    {
+      "name": "Chinese Beaver",
+      "rarity": "Ultra Legendary",
+      "max_hp": 999999,
+      "attack": {"base_damage": 200, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Take That Wood", "description": "Flip 5 coins. Deal 1000 damage per heads. Dies after 2 turns.", "effect_id": "take_that_wood"},
+      "passive": {"name": "Beaver Timer", "description": "Dies after 2 turns", "effect_id": "beaver_timer", "is_passive": true}
+    },
+    {
+      "name": "Noah Tsui",
+      "rarity": "Ultra Legendary",
+      "max_hp": 1500,
+      "attack": {"base_damage": 500, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 200},
+      "ability": {"name": "Thicc Calves", "description": "Auto-dodge next 2 attacks", "effect_id": "thicc_calves"},
+      "passive": {"name": "Jump", "description": "50% dodge chance", "effect_id": "jump", "is_passive": true},
+      "secondary_passive": {"name": "Asian Blindness", "description": "25% miss chance", "effect_id": "asian_blindness", "is_passive": true}
+    },
+    {
+      "name": "Colin Sweeney",
+      "rarity": "Ultra Legendary",
+      "max_hp": 1600,
+      "attack": {"base_damage": 0, "percent_damage": 50, "crit_chance": 50, "crit_multiplier": 200},
+      "ability": {"name": "Caffeine Gum", "description": "Double coin flips next turn", "effect_id": "caffeine_gum"},
+      "passive": {"name": "Procrastination", "description": "25% chance to skip turn", "effect_id": "procrastination", "is_passive": true}
+    },
+    {
+      "name": "Aldo Ortiz",
+      "rarity": "Ultra Legendary",
+      "max_hp": 1750,
+      "attack": {"base_damage": 21, "percent_damage": 0, "crit_chance": 10, "crit_multiplier": 10000},
+      "ability": {"name": "Bean Rice and Cheese Burrito", "description": "33% each: Bean, Rice, or Cheese", "effect_id": "bean_rice_cheese"},
+      "passive": {"name": "Slipped on Ice", "description": "25% slip = immobilize 1 turn", "effect_id": "aldo_slip", "is_passive": true},
+      "secondary_passive": {"name": "High Dodge", "description": "75% dodge above 1000 HP", "effect_id": "high_dodge", "is_passive": true}
+    }
+  ]
+}

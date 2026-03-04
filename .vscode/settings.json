@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^mkdir -p /Users/colinsweeney2/Custom_TCG_Final/tcg$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
